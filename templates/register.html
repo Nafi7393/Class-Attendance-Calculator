@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register_styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Register</h1>
+    </header>
+    <main>
+      <form id="registerForm" method="POST" action="/register">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+          {% if error and error_type == 'name' %}
+            <p class="error-message">{{ error }}</p>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+          {% if error and error_type == 'email' %}
+            <p class="error-message">{{ error }}</p>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button id="registerButton" type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="/login">Login</a></p>
+    </main>
+    <footer>
+      &copy; 2023 Class Attendance Calculator. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+    const registerButton = document.getElementById('registerButton');
+    const allowedDomains = ["gmail.com", "stud.kuet.ac.bd", "hotmail.com", "yahoo.com", "outlook.com", "icloud.com", "aol.com", "protonmail.com", "zoho.com", "mail.com", "yandex.com", "gmx.com", "live.com", "inbox.com", "fastmail.com", "rocketmail.com", "me.com", "rediffmail.com", "cox.net", "earthlink.net", "att.net", "msn.com", "sbcglobal.net", "optonline.net", "yahoo.co.uk", "ymail.com", "roadrunner.com", "verizon.net", "charter.net", "hotmail.co.uk", "btinternet.com"]; // Add your allowed domain names here
+
+    registerForm.addEventListener('submit', function(event) {
+      if (!isEmailValid(emailInput.value)) {
+        event.preventDefault();
+        emailError.innerText = 'Invalid email or domain not allowed.';
+      } else {
+        emailError.innerText = '';
+      }
+    });
+
+    emailInput.addEventListener('input', function() {
+      if (isEmailValid(emailInput.value)) {
+        emailError.innerText = '';
+        registerButton.removeAttribute('disabled');
+      } else {
+        emailError.innerText = 'Invalid email or domain not allowed.';
+        registerButton.setAttribute('disabled', true);
+      }
+    });
+
+    function isEmailValid(email) {
+      const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      const domain = email.split('@')[1];
+
+      if (!regex.test(email) || !allowedDomains.includes(domain)) {
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</body>
+</html>

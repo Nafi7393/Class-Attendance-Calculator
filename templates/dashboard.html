@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Class Attendance Calculator</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard_styles.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="menu-bar">
+    <div class="menu-item"><a href="{{ url_for('dashboard') }}"><button id="userName">{{ session['user_name'] }}</button></a></div>
+    <div class="menu-item"><a href="{{ url_for('logout') }}"><button id="logOut">Logout</button></a></div>
+  </div>
+
+  <h1>Class Attendance Calculator</h1>
+  <table id="attendanceTable">
+    <thead>
+      <tr>
+        <th>Course Name</th>
+        <th>Teacher's Name</th>
+        <th>Classes Taken</th>
+        <th>Absent</th>
+        <th>Present</th>
+        <th>Attendance Percentage</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+      <tr>
+        <td contenteditable="true">{{ course['name'] }}</td>
+        <td contenteditable="true">{{ course['teacher'] }}</td>
+        <td contenteditable="true">{{ course['classes_taken'] }}</td>
+        <td contenteditable="true">{{ course['absent'] }}</td>
+        <td>{{ course['classes_taken'] - course['absent'] }}</td>
+        <td class="attendance-percentage">{{ ((course['classes_taken'] - course['absent']) / course['classes_taken']) * 100 }}%</td>
+        <td><button id="removeCourseBtn" onclick="confirmRemove(this)">Remove</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="button-container">
+    <button id="addCourseBtn">Add Course</button>
+  </div>
+
+  <div id="chartContainer">
+    <canvas id="attendanceChart"></canvas>
+  </div>
+
+  <div id="colorIndicator"></div>
+
+  <footer>
+      &copy; 2023 Class Attendance Calculator. All rights reserved.
+  </footer>
+
+<script>
+
+    // Get a reference to the canvas element
+    var chartCanvas = document.getElementById('attendanceChart');
+
+    // Create a new Chart instance
+    var attendanceChart = new Chart(chartCanvas, {
+      type: 'bar',
+      data: {
+        labels: [],
+        datasets: [{
+          label: '', // Empty label
+          data: [],
+          backgroundColor: [],
+          borderColor: '#000',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        },
+        plugins: {
+          legend: {
+            display: false // Hide the legend
+          }
+        }
+      }
+    });
+
+
+    function updateChart() {
+      var courses = document.querySelectorAll('#attendanceTable tbody tr');
+      var labels = [];
+      var data = [];
+      var backgroundColor = [];
+      var colorIndicatorHTML = '';
+
+      courses.forEach(function (course) {
+        var name = course.cells[0].innerText;
+        var teacher = course.cells[1].innerText;
+        var attendancePercentage = parseFloat(course.cells[5].innerText);
+
+        labels.push(name + " by " + teacher);
+        data.push(attendancePercentage);
+
+        if (attendancePercentage >= 90) {
+          backgroundColor.push('#00d407');
+        } else if (attendancePercentage > 79 && attendancePercentage < 90) {
+          backgroundColor.push('#86d400');
+        } else if (attendancePercentage > 69 && attendancePercentage <= 79) {
+          backgroundColor.push('#d4c200');
+        } else if (attendancePercentage > 64 && attendancePercentage <= 69) {
+          backgroundColor.push('#d48600');
+        } else if (attendancePercentage > 60 && attendancePercentage <= 64) {
+          backgroundColor.push('#d44e00');
+        } else if (attendancePercentage === 60) {
+          backgroundColor.push('#d44000');
+        } else {
+          backgroundColor.push('#ff0000');
+        }
+
+        // Create color indicator HTML
+        colorIndicatorHTML += '<div style="color: ' + backgroundColor[backgroundColor.length - 1] + '">' + name + '</div>';
+      });
+
+      attendanceChart.data.labels = labels;
+      attendanceChart.data.datasets[0].data = data;
+      attendanceChart.data.datasets[0].backgroundColor = backgroundColor;
+      attendanceChart.update();
+
+      // Update color indicator
+      var colorIndicator = document.getElementById('colorIndicator');
+      colorIndicator.innerHTML = colorIndicatorHTML;
+    }
+
+
+
+    function updateDatabase(courses) {
+      $.ajax({
+        type: "POST",
+        url: "/update_courses",
+        data: JSON.stringify({ courses: courses }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response) {
+          console.log("Courses updated successfully!");
+        },
+        error: function(error) {
+          console.log("Error updating courses:", error);
+        }
+      });
+      updateChart();
+    }
+
+    function updateAttendance() {
+      var rows = document.querySelectorAll('#attendanceTable tbody tr');
+      var courses = [];
+      rows.forEach(function(row) {
+        var course = {
+          name: row.cells[0].innerText,
+          teacher: row.cells[1].innerText,
+          classes_taken: parseInt(row.cells[2].innerText),
+          absent: parseInt(row.cells[3].innerText)
+        };
+        courses.push(course);
+
+        var classesTaken = parseInt(row.cells[2].innerText);
+        var absent = parseInt(row.cells[3].innerText);
+        var present = classesTaken - absent;
+        var attendancePercentage = (present / classesTaken) * 100;
+
+        row.cells[4].innerText = present;
+        row.cells[5].innerText = attendancePercentage.toFixed(2) + '%';
+
+        var attendancePercentageCell = row.querySelector('.attendance-percentage');
+        attendancePercentageCell.style.color = getAttendancePercentageColor(attendancePercentage);
+      });
+
+      updateDatabase(courses);
+    }
+
+    function confirmRemove(button) {
+      var confirmation = confirm('Are you sure you want to remove this course?');
+      if (confirmation) {
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        updateAttendance();
+      }
+    }
+
+    function addCourse() {
+      var tableBody = document.querySelector('#attendanceTable tbody');
+      var newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true" oninput="validateInput(this)"></td>
+        <td contenteditable="true" oninput="validateInput(this)"></td>
+        <td></td>
+        <td class="attendance-percentage"></td>
+        <td><button onclick="confirmRemove(this)">Remove</button></td>
+      `;
+      tableBody.appendChild(newRow);
+
+      newRow.cells[2].innerText = '1';
+      newRow.cells[3].innerText = '0';
+
+      updateAttendance();
+
+    }
+
+    document.getElementById('addCourseBtn').addEventListener('click', addCourse);
+
+    document.getElementById('attendanceTable').addEventListener('input', function(event) {
+      if (event.target.tagName === 'TD') {
+        updateAttendance();
+      }
+    });
+
+    function validateInput(cell) {
+      var value = cell.innerText;
+      var validNumber = /^\d+$/.test(value); // Check if value is a positive integer
+
+      if (!validNumber || parseInt(value) <= 0) {
+        // Set default values for invalid inputs
+        if (cell === cell.parentNode.cells[2] || cell === cell.parentNode.cells[3]) {
+          cell.innerText = (cell === cell.parentNode.cells[2]) ? '1' : '0';
+        } else {
+          cell.innerText = '';
+        }
+      }
+
+      updateAttendance();
+    }
+
+    function getAttendancePercentageColor(percentage) {
+      if (percentage >= 90) {
+        return '#00d407';
+      } else if (percentage > 79 && percentage < 90) {
+        return '#86d400';
+      } else if (percentage > 69 && percentage <= 79) {
+        return '#d4c200';
+      } else if (percentage > 64 && percentage <= 69) {
+        return '#d48600';
+      } else if (percentage > 60 && percentage <= 64) {
+        return '#d44e00';
+      } else if (percentage === 60) {
+        return '#d44000';
+      } else {
+        return '#ff0000';
+      }
+    }
+
+    // Initial calculations
+    updateAttendance();
+    updateChart();
+  </script>
+
+</body>
+</html>

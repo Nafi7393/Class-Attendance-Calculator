@@ -1,13 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///G:\\Pycharm Projects\\TO DO Tracker\\instance\\users.db"
+
+# Get the current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the raw path relative to the current directory
+db_path = os.path.join(current_dir, "instance", "users.db")
+db_uri = f"sqlite:///{db_path}"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "SECRET_KEY"
 db = SQLAlchemy(app)
-DATABASE = 'G:\\Pycharm Projects\\TO DO Tracker\\instance\\users.db'
 
 
 class User(db.Model):

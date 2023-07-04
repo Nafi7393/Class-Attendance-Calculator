@@ -43,7 +43,7 @@ executing==1.2.0
 fastjsonschema==2.16.3
 ffmpeg-python==0.2.0
 filelock==3.8.0
-Flask==2.3.2
+Flask==2.2.5
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.2
 Flask-MySQLdb==1.0.1

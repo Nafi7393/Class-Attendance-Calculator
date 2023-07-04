@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
+import bcrypt
 
 
 app = Flask(__name__)
@@ -24,6 +25,13 @@ class User(db.Model):
     email = db.Column(db.String(60), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     courses = db.Column(db.PickleType, nullable=True)
+
+    def set_password(self, password):
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        self.password = hashed_password.decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
 
 @app.route('/')
@@ -50,7 +58,8 @@ def register():
             return render_template('register.html', error=error, error_type='name')
 
         # Create a new user
-        new_user = User(name=name, email=email, password=password)
+        new_user = User(name=name, email=email)
+        new_user.set_password(password)  # Hash the password
         db.session.add(new_user)
         db.session.commit()
 
@@ -65,9 +74,9 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        user = User.query.filter_by(email=email, password=password).first()
+        user = User.query.filter_by(email=email).first()
 
-        if user:
+        if user and user.check_password(password):
             # Set user session
             session['user_id'] = user.id
             session['user_email'] = user.email

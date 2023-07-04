@@ -35,7 +35,7 @@ body {
 .attendance-percentage {
   font-weight: bold;
   background-color: #fafafa;
-  font-size: 14px;
+  font-size: 18px;
 
 }
 
@@ -79,7 +79,7 @@ th {
 }
 
 td {
-  font-size: 12px;
+  font-size: 11px;
 }
 
 

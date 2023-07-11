@@ -32,7 +32,7 @@
         <td contenteditable="true">{{ course['teacher'] }}</td>
         <td contenteditable="true">{{ course['classes_taken'] }}</td>
         <td contenteditable="true">{{ course['absent'] }}</td>
-        <td>{{ course['classes_taken'] - course['absent'] }}</td>
+        <td class="present">{{ course['classes_taken'] - course['absent'] }}</td>
         <td class="attendance-percentage">{{ ((course['classes_taken'] - course['absent']) / course['classes_taken']) * 100 }}%</td>
         <td><button id="removeCourseBtn" onclick="confirmRemove(this)">Remove</button></td>
       </tr>

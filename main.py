@@ -1,14 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
-import bcrypt, os
-
-from dotenv import load_dotenv
-load_dotenv()
+import bcrypt
 
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URI")
+app.config['SQLALCHEMY_DATABASE_URI'] = "DATABASE_URI=postgresql://class_attendance_calculator_user:JgBUYR2oMB2p2joFuvAP7WbZnICLXcSS@dpg-ciifdslph6erq6ge4560-a.oregon-postgres.render.com/class_attendance_calculator"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "SECRET_KEY"
 db = SQLAlchemy(app)

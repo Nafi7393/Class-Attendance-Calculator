@@ -25,7 +25,7 @@
         <th>Remove</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="courseTableBody">
       {% for course in courses %}
       <tr>
         <td contenteditable="true">{{ course['name'] }}</td>
@@ -49,6 +49,14 @@
   </div>
 
   <div id="colorIndicator"></div>
+
+  <!-- Overall Statistics -->
+  <div id="overallStatistics">
+    <h2 style="color: #ffcb00; margin-bottom: 50px; font-size: 30px;">Overall Attendance Statistics</h2>
+    <p>Average Attendance Percentage: <span id="averagePercentage" style="font-weight: bold;">{{ overall_stats['average_percentage'] }}</span>%</p>
+    <p>Total Classes Attended: <span id="totalClassesAttended" style="font-weight: bold;">{{ overall_stats['total_classes_attended'] }}</span></p>
+    <p>Total Classes Missed: <span id="totalClassesMissed" style="font-weight: bold;">{{ overall_stats['total_classes_missed'] }}</span></p>
+  </div>
 
   <footer>
       &copy; 2023 Class Attendance Calculator. All rights reserved.
@@ -259,6 +267,54 @@
         return '#ff0000';
       }
     }
+
+    // Function to update the overall statistics
+    function updateOverallStats() {
+      var totalClassesAttended = 0;
+      var totalClassesMissed = 0;
+      var averagePercentage = 0;
+      var courses = document.querySelectorAll('#attendanceTable tbody tr');
+
+      courses.forEach(function (course) {
+        var classesTaken = parseInt(course.cells[2].innerText);
+        var absent = parseInt(course.cells[3].innerText);
+
+        totalClassesAttended += classesTaken - absent;
+        totalClassesMissed += absent;
+      });
+
+      var totalClasses = totalClassesAttended + totalClassesMissed;
+      averagePercentage = (totalClassesAttended / totalClasses) * 100;
+
+      // Update the overall statistics elements
+      var averagePercentageElement = document.getElementById('averagePercentage');
+      averagePercentageElement.textContent = averagePercentage.toFixed(2);
+      averagePercentageElement.style.color = getAttendancePercentageColor(averagePercentage);
+
+      var totalClassesAttendedElement = document.getElementById('totalClassesAttended');
+      totalClassesAttendedElement.textContent = totalClassesAttended;
+      // totalClassesAttendedElement.style.color = getAttendancePercentageColor(100 * totalClassesAttended / totalClasses);
+
+      var totalClassesMissedElement = document.getElementById('totalClassesMissed');
+      totalClassesMissedElement.textContent = totalClassesMissed;
+      // totalClassesMissedElement.style.color = getAttendancePercentageColor(100 * totalClassesMissed / totalClasses);
+    }
+
+
+    // Event listener for input changes
+    document.getElementById('attendanceTable').addEventListener('input', function(event) {
+      if (event.target.tagName === 'TD') {
+        updateOverallStats();
+      }
+    });
+
+
+    // Call handleNewCourse when a new course is added
+    document.getElementById('addCourseBtn').addEventListener('click', updateOverallStats);
+
+    // Call updateOverallStats on page load
+    window.addEventListener('load', updateOverallStats);
+
 
     // Initial calculations
     updateAttendance();

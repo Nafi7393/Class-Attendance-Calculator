@@ -162,6 +162,15 @@
           classes_taken: parseInt(row.cells[2].innerText),
           absent: parseInt(row.cells[3].innerText)
         };
+
+        // Apply if-else logic to classes_taken and absent
+        if (course.classes_taken < 1) {
+          course.classes_taken = 1;
+        }
+        if (isNaN(course.absent) || course.absent < 1) {
+          course.absent = 0;
+        }
+
         courses.push(course);
 
         var classesTaken = parseInt(row.cells[2].innerText);

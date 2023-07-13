@@ -20,6 +20,7 @@ app.config['SECRET_KEY'] = "SECRET_KEY"
 db = SQLAlchemy(app)
 
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25), unique=True, nullable=False)
@@ -33,6 +34,30 @@ class User(db.Model):
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+
+def calculate_overall_stats(courses):
+    total_classes_attended = 0
+    total_classes_missed = 0
+
+    for course in courses:
+        classes_taken = course['classes_taken']
+        absent = course['absent']
+
+        total_classes_attended += classes_taken - absent
+        total_classes_missed += absent
+
+    total_classes = total_classes_attended + total_classes_missed
+    average_percentage = (total_classes_attended / total_classes) * 100 if total_classes > 0 else 0
+
+    overall_stats = {
+        'total_classes_attended': total_classes_attended,
+        'total_classes_missed': total_classes_missed,
+        'average_percentage': round(average_percentage, 2)
+    }
+
+    return overall_stats
+
 
 
 @app.route('/')
@@ -116,7 +141,16 @@ def dashboard():
     if courses is None or len(courses) == 0:
         courses = [{'name': '', 'teacher': '', 'classes_taken': 1, 'absent': 0}]
 
-    return render_template('dashboard.html', courses=courses)
+    for i in courses:
+        if i["classes_taken"] == 0 or i["classes_taken"] is None:
+            i["classes_taken"] = 1
+
+        if i["absent"] <= 0 or i["absent"] is None:
+            i["absent"] = 0
+
+    overall_stats = calculate_overall_stats(courses)
+
+    return render_template('dashboard.html', courses=courses, overall_stats=overall_stats)
 
 
 @app.route('/update_courses', methods=['POST'])
@@ -155,6 +189,7 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
+
 
     # to make clean database
     # with app.app_context():

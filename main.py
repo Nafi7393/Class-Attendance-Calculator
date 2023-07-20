@@ -137,6 +137,7 @@ def dashboard():
         courses = user.courses if user else []
     else:
         courses = []
+        return render_template('login.html')
 
     if courses is None or len(courses) == 0:
         courses = [{'name': '', 'teacher': '', 'classes_taken': 1, 'absent': 0}]

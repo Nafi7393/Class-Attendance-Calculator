@@ -14,7 +14,7 @@ app = Flask(__name__)
 # db_path = os.path.join(current_dir, "instance", "users.db")
 # db_uri = f"sqlite:///{db_path}"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://Nafi7393:a7sL4hNgDxlH@ep-late-bonus-54737567.us-east-2.aws.neon.tech/attendence"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://Nafi7393:a7sL4hNgDxlH@ep-late-bonus-54737567/attendence"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "SECRET_KEY"
 db = SQLAlchemy(app)

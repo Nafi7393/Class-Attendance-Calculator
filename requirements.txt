@@ -150,7 +150,6 @@ tzlocal==4.3.1
 urllib3==1.26.12
 uvicorn==0.23.2
 validators==0.20.0
-watchdog==3.0.0
 weasyprint==59.0
 webdriver-manager==3.8.4
 webencodings==0.5.1

@@ -80,14 +80,14 @@ You can access the Class Attendance Calculator online for free at here: [Class A
 4. Make changes to your attendance records, and they'll be updated instantly.
 5. Log out when you're done, and rest easy knowing Class Attendance Calculator has you covered.
 
-### Mobile Experience
+## Mobile Experience
 
 - **Optimized for Mobile Devices:**
   - Access the Class Attendance Calculator on any mobile device.
   - The interface adapts seamlessly to different screen sizes, ensuring usability on the go.
   - Navigate through courses and update attendance effortlessly.
 
-### Troubleshooting
+## Troubleshooting
 
 - **Issues with Registration or Login:**
   - Ensure your email is from one of the supported domains listed during registration.

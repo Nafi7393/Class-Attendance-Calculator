@@ -20,7 +20,6 @@ app.config['SECRET_KEY'] = "SECRET_KEY"
 db = SQLAlchemy(app)
 
 
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(25), unique=True, nullable=False)
@@ -57,7 +56,6 @@ def calculate_overall_stats(courses):
     }
 
     return overall_stats
-
 
 
 @app.route('/')
@@ -190,7 +188,6 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
-
 
     # to make clean database
     # with app.app_context():

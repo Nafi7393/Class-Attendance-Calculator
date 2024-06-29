@@ -1,55 +1,86 @@
-# Class Attendance Calculator: Your Personal Class Attendance Tracker
+# Class Attendance Calculator
 
-Class Attendance Calculator is a user-friendly web application designed to help you effortlessly track your class attendance. Say goodbye to manual counting and tracking – let ClassTrack do the heavy lifting for you!
+Welcome to the Class Attendance Calculator, a Flask-based web application designed to simplify attendance management for classes. This project provides a user-friendly interface for both students and instructors to track attendance efficiently.
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Introduction
-
-Welcome to Class Attendance Calculator, your reliable companion for keeping tabs on your class attendance. This Flask-based web application allows you to easily register, log in, and keep track of your attended and missed classes across multiple courses. With a visually appealing dashboard and intuitive user interface, ClassTrack makes managing your attendance a breeze.
+![Home Page](DEMO/home.jpg)
+*Home Page: This is the landing page of the application, welcoming users and providing an overview of its functionality.*
 
 ## Features
 
-- **User-Friendly Registration and Login**: Get started with a seamless registration process. Log in securely to your ClassTrack account to access your attendance data.
+- **User Authentication**: Secure login and registration system.
+- **Attendance Management**: Easily manage and track attendance for multiple classes.
+- **Dashboard**: Visualize attendance statistics and trends through interactive charts.
+- **Responsive Design**: Optimized for desktop and mobile devices.
 
-- **Interactive Dashboard**: Visualize your attendance progress with an intuitive dashboard. See the total number of classes attended, classes missed, and your average attendance percentage.
+## Accessing the Website
 
-- **Course Management**: Add, edit, and remove courses from your dashboard. Keep your course details up-to-date effortlessly.
+You can access the Class Attendance Calculator online for free at here: [Class Attendance Calculator](https://class-attendance-calculator.onrender.com).
 
-- **Real-time Updates**: Make changes to your attendance records and see your statistics update in real-time.
+## Screenshots
 
-- **Responsive Design**: Class Attendance Calculator works smoothly on desktop, tablet, and mobile devices, ensuring you can access your attendance data anywhere, anytime.
+### Registration Page
+![Registration Page](DEMO/register.jpg)
+*Registration Page: Allows new users to register with their name, email, and password. Error handling ensures valid inputs.*
 
-- **Privacy and Security**: Class Attendance Calculator employs state-of-the-art encryption and security practices to keep your data safe and secure.
+### Login Page
+![Login Page](DEMO/login.jpg)
+*Login Page: Secure login form for registered users.*
 
+### Dashboard (Desktop View)
+![Dashboard](DEMO/pc-dashboard.jpg)
+*Dashboard: Provides an overview of attendance statistics for various classes in a tabular and graphical format.*
 
-## Usage
+### Attendance Statistics Chart
+![Attendance Chart](DEMO/chart-dashboard.jpg)
+*Attendance Chart: Visual representation of attendance statistics, helps users understand their progress at a glance.*
 
-1. Register or log in to your Class Attendance Calculator account.
-2. Add your courses and update attendance information as needed.
-3. Watch your dashboard come to life with attendance statistics and insights.
-4. Make changes to your attendance records, and they'll be updated instantly.
-5. Log out when you're done, and rest easy knowing Class Attendance Calculator has you covered.
+### Footer
+![Footer](DEMO/footer-dashboard.jpg)
+*Footer: Footer content seamlessly integrated with attendance statistics enhances user experience.*
 
+### Mobile View (After Login)
+![Mobile Dashboard](DEMO/mobile-dashboard.jpeg)
+*Mobile View: Optimized interface for mobile devices, ensuring usability and responsiveness across different screen sizes.*
+
+## Getting Started
+***You can simply visit [HERE](https://class-attendance-calculator.onrender.com) to use this app.***
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Nafi7393/Class-Attendance-Calculator.git
+   cd Class-Attendance-Calculator
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Set up environment variables for Flask (optional but recommended):
+   ```bash
+   export FLASK_APP=main.py
+   export FLASK_ENV=development  # Set to 'production' for deployment
+   ```
+
+4. Run the application:
+   ```bash
+   flask run
+   ```
+
+5. Open your web browser and navigate to `http://localhost:5000` to view the application locally.
 
 ## Contributing
 
-Class Attendance Calculator welcomes contributions from the open-source community. If you'd like to contribute, please follow these steps:
-We appreciate your contributions to making Class Attendance Calculator even better!
+Contributions are welcome! Please fork the repository and create a pull request with your improvements.
 
-## License
 
-Class Attendance Calculator is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute this project according to the terms of this license.
+## Acknowledgments
+
+- Inspiration and initial structure from [Flask Documentation](https://flask.palletsprojects.com/)
+- Chart visualization powered by [Chart.js](https://www.chartjs.org/)
+- Responsive design techniques adapted from [Bootstrap](https://getbootstrap.com/)
 
 ---
 
-Ready to take control of your class attendance? Start using Class Attendance Calculator today and make attendance tracking a breeze.
-
-Happy tracking!
-Class Attendance Calculator
+© 2023 Class Attendance Calculator. All rights reserved.

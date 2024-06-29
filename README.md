@@ -7,10 +7,13 @@ Welcome to the Class Attendance Calculator, a Flask-based web application design
 
 ## Features
 
-- **User Authentication**: Secure login and registration system.
-- **Attendance Management**: Easily manage and track attendance for multiple classes.
-- **Dashboard**: Visualize attendance statistics and trends through interactive charts.
-- **Responsive Design**: Optimized for desktop and mobile devices.
+- **User-Friendly Registration and Login**: Get started with a seamless registration process. Log in securely to your ClassTrack account to access your attendance data.
+- **Interactive Dashboard**: Visualize your attendance progress with an intuitive dashboard. See the total number of classes attended, classes missed, and your average attendance percentage.
+- **Visualize Dashboard**: Visualize attendance statistics and trends through interactive charts.
+- **Course Management**: Add, edit, and remove courses from your dashboard. Keep your course details up-to-date effortlessly.
+- **Real-time Updates**: Make changes to your attendance records and see your statistics update in real-time.
+- **Responsive Design**: lass Attendance Calculator works smoothly on desktop, tablet, and mobile devices, ensuring you can access your attendance data anywhere, anytime.
+- **Privacy and Security**: Class Attendance Calculator employs state-of-the-art encryption and security practices to keep your data safe and secure.
 
 ## Accessing the Website
 
@@ -69,6 +72,26 @@ You can access the Class Attendance Calculator online for free at here: [Class A
    ```
 
 5. Open your web browser and navigate to `http://localhost:5000` to view the application locally.
+
+## Usage
+1. Register or log in to your Class Attendance Calculator account.
+2. Add your courses and update attendance information as needed.
+3. Watch your dashboard come to life with attendance statistics and insights.
+4. Make changes to your attendance records, and they'll be updated instantly.
+5. Log out when you're done, and rest easy knowing Class Attendance Calculator has you covered.
+
+### Mobile Experience
+
+- **Optimized for Mobile Devices:**
+  - Access the Class Attendance Calculator on any mobile device.
+  - The interface adapts seamlessly to different screen sizes, ensuring usability on the go.
+  - Navigate through courses and update attendance effortlessly.
+
+### Troubleshooting
+
+- **Issues with Registration or Login:**
+  - Ensure your email is from one of the supported domains listed during registration.
+  - Double-check your password for correct spelling and case sensitivity.
 
 ## Contributing
 

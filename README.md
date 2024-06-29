@@ -2,6 +2,10 @@
 
 Welcome to the Class Attendance Calculator, a Flask-based web application designed to simplify attendance management for classes. This project provides a user-friendly interface for both students and instructors to track attendance efficiently.
 
+## Accessing the Website
+
+You can access the Class Attendance Calculator online for free at here: [Class Attendance Calculator](https://class-attendance-calculator.onrender.com).
+
 ![Home Page](DEMO/home.jpg)
 *Home Page: This is the landing page of the application, welcoming users and providing an overview of its functionality.*
 
@@ -14,10 +18,6 @@ Welcome to the Class Attendance Calculator, a Flask-based web application design
 - **Real-time Updates**: Make changes to your attendance records and see your statistics update in real-time.
 - **Responsive Design**: lass Attendance Calculator works smoothly on desktop, tablet, and mobile devices, ensuring you can access your attendance data anywhere, anytime.
 - **Privacy and Security**: Class Attendance Calculator employs state-of-the-art encryption and security practices to keep your data safe and secure.
-
-## Accessing the Website
-
-You can access the Class Attendance Calculator online for free at here: [Class Attendance Calculator](https://class-attendance-calculator.onrender.com).
 
 ## Screenshots
 
